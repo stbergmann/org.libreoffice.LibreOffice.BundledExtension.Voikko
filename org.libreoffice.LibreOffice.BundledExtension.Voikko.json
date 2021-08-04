@@ -1,0 +1,80 @@
+{
+    "id": "org.libreoffice.LibreOffice.BundledExtension.Voikko",
+    "runtime": "org.libreoffice.LibreOffice",
+    "runtime-version": "test",
+    "sdk": "org.freedesktop.Sdk//20.08",
+    "build-extension": true,
+    "separate-locales": false,
+    "appstream-compose": false,
+    "modules": [
+        {
+            "name": "libvoikko",
+            "buildsystem": "simple",
+            "build-commands": [ "./configure --prefix=/app/libreoffice/share/extensions/Voikko/build-deps/libvoikko --disable-hfst --with-dictionary-path=/app/libreoffice/share/extensions/Voikko/voikko",
+                                "make",
+                                "make install",
+                                "mkdir -p /app/libreoffice/share/extensions/Voikko/voikko/Linux",
+                                "cp -L /app/libreoffice/share/extensions/Voikko/build-deps/libvoikko/lib/libvoikko.so.1 /app/libreoffice/share/extensions/Voikko/voikko/Linux/",
+                                "mkdir -p /app/libreoffice/share/extensions/Voikko/pythonpath",
+                                "cp python/libvoikko.py /app/libreoffice/share/extensions/Voikko/pythonpath/" ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.puimula.org/voikko-sources/libvoikko/libvoikko-4.3.1.tar.gz",
+                    "sha256": "368240d4cfa472c2e2c43dc04b63e6464a3e6d282045848f420d0f7a6eb09a13"
+                }
+            ]
+        },
+        {
+            "name": "foma",
+            "buildsystem": "simple",
+            "build-commands": [ "make", "make install" ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://bitbucket.org/mhulden/foma/downloads/foma-0.9.18.tar.gz",
+                    "sha256": "cb380f43e86fc7b3d4e43186db3e7cff8f2417e18ea69cc991e466a3907d8cbd"
+                },
+                {
+                    "type": "patch",
+                    "path": "foma-installpath.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "foma-variables.patch"
+                }
+            ]
+        },
+        {
+            "name": "voikko-fi",
+            "buildsystem": "simple",
+            "build-commands": [ "PATH=$PATH:/app/libreoffice/share/extensions/Voikko/build-deps/libvoikko/bin:/app/libreoffice/share/extensions/Voikko/build-deps/foma/bin make vvfst", "make vvfst-install DESTDIR=/app/libreoffice/share/extensions/Voikko/voikko" ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.puimula.org/voikko-sources/voikko-fi/voikko-fi-2.4.tar.gz",
+                    "sha256": "320b2d4e428f6beba9d0ab0d775f8fbe150284fbbafaf3e5afaf02524cee28cc"
+                }
+            ]
+        },
+        {
+            "name": "libreoffice-voikko",
+            "buildsystem": "simple",
+            "build-commands": [ "make oxt",
+                                "mkdir -p /app/libreoffice/share/extensions/Voikko",
+                                "unzip -d /app/libreoffice/share/extensions/Voikko build/voikko.oxt" ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.puimula.org/voikko-sources/libreoffice-voikko/libreoffice-voikko-5.0.tar.gz",
+                    "sha256": "8322b58d83eb6e1398d6914885d88a2ee08c8dd2fc2b72d75fba8fe83eefbe38"
+                },
+                {
+                    "type": "patch",
+                    "path": "libreoffice-voikko-path.patch"
+                }
+            ]
+        }
+    ],
+    "cleanup": [ "/libreoffice/share/extensions/Voikko/build-deps" ]
+}
