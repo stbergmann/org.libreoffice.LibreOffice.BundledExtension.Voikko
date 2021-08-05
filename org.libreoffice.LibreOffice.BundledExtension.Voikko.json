@@ -1,7 +1,7 @@
 {
     "id": "org.libreoffice.LibreOffice.BundledExtension.Voikko",
     "runtime": "org.libreoffice.LibreOffice",
-    "runtime-version": "test",
+    "runtime-version": "stable",
     "sdk": "org.freedesktop.Sdk//20.08",
     "build-extension": true,
     "separate-locales": false,
