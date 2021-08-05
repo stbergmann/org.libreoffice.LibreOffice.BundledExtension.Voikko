@@ -76,5 +76,5 @@
             ]
         }
     ],
-    "cleanup": [ "/libreoffice/share/extensions/Voikko/build-deps" ]
+    "cleanup-commands": [ "rm -r /app/libreoffice/share/extensions/Voikko/build-deps" ]
 }
